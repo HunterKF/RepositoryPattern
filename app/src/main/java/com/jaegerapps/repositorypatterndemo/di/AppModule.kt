@@ -1,13 +1,12 @@
 package com.jaegerapps.repositorypatterndemo.di
 
-import com.jaegerapps.repositorypatterndemo.data.remote.CoffeeApi
+import com.jaegerapps.repositorypatterndemo.data.remote.PizzaApi
 import com.jaegerapps.repositorypatterndemo.data.repo.PhotosRepoImpl
 import com.jaegerapps.repositorypatterndemo.domain.repo.PhotosRepo
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import io.ktor.client.HttpClient
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -34,12 +33,11 @@ object AppModule {
             .writeTimeout(120, TimeUnit.SECONDS)
             .build()
     }
-
     @Provides
     @Singleton
-    fun provideCoffeeApi(client: OkHttpClient): CoffeeApi {
+    fun providePizzaApi(client: OkHttpClient): PizzaApi {
         return Retrofit.Builder()
-            .baseUrl("https://coffee.alexflipnote.dev/")
+            .baseUrl("https://foodish-api.com/")
             .addConverterFactory(MoshiConverterFactory.create())
             .client(client)
             .build()
@@ -48,7 +46,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providePhotosRepo(api: CoffeeApi): PhotosRepo {
+    fun providePhotosRepo(api: PizzaApi): PhotosRepo {
         return PhotosRepoImpl(api)
     }
 
